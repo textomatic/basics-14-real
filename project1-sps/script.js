@@ -1,13 +1,40 @@
+var userName = "";
+var computerWins = 0;
+var userWins = 0;
+var totalDraws = 0;
+var totalPlays = 0;
+
 var main = function (input) {
-  // Validate user ihput
-  if (input != "Scissors" && input != "Paper" && input != "Stone") {
-    return "Please enter Scissors, Paper, or Stone only.";
+  // Store user name if variable is empty
+  if (userName == "") {
+    if (input != "") {
+      userName = input;
+      return `Welcome ${userName}! Please enter a move to start the game: Scissors, Paper, or Stone`;
+    } else {
+      return "Welcome! Please enter your name to begin playing!";
+    }
   }
+
+  // Validate user input
+  var outputValue = "Please enter Scissors, Paper, or Stone only.";
+  if (input != "Scissors" && input != "Paper" && input != "Stone") {
+    return outputValue;
+  }
+
+  // Update number of plays
+  totalPlays += 1;
+
   // Get scissors/paper/stone from computer
   var computerMove = getScissorsPaperStone();
 
   // Print to console to debug computer's move
   console.log(`computerMove: ${computerMove}`);
+
+  // Display current play moves
+  outputValue = `You chose ${input} ${getEmojiHTML(input)}`;
+  outputValue += `<br>Computer chose ${computerMove} ${getEmojiHTML(
+    computerMove
+  )}`;
 
   // Compare input with computer's scissors/paper/stone
   // Return statement on whether user won/lost/got a draw
@@ -16,16 +43,33 @@ var main = function (input) {
     (input == "Paper" && computerMove == "Stone") ||
     (input == "Stone" && computerMove == "Scissors")
   ) {
-    return "You win!";
+    userWins += 1;
+    outputValue += "<br>You win! Congratulations!";
   } else if (
     (input == "Paper" && computerMove == "Scissors") ||
     (input == "Stone" && computerMove == "Paper") ||
     (input == "Scissors" && computerMove == "Stone")
   ) {
-    return "You lose!";
+    computerWins += 1;
+    outputValue += "<br>You lose! Bummer...";
   } else {
-    return "It's a draw!";
+    totalDraws += 1;
+    outputValue += "<br>It's a draw!";
   }
+
+  // Display winning statistics
+  outputValue += `<br>=========Game Stats==========`;
+  outputValue += `<br>${userName} won: ${userWins}/${totalPlays} times`;
+  outputValue += `<br>Computer won: ${computerWins}/${totalPlays} times`;
+  outputValue += `<br>Total draws: ${totalDraws}/${totalPlays} times`;
+  outputValue += `<br>${userName}'s winning percentage: ${
+    (userWins / totalPlays) * 100
+  }%`;
+  outputValue += `<br>Computer winning percentage: ${
+    (computerWins / totalPlays) * 100
+  }%`;
+
+  return outputValue;
 };
 
 var getScissorsPaperStone = function () {
@@ -50,4 +94,23 @@ var getScissorsPaperStone = function () {
   } else {
     return "Stone";
   }
+};
+
+var getEmojiHTML = function (move) {
+  // Define variable for emoji HTML
+  var emoji = "";
+
+  switch (move) {
+    case "Scissors":
+      emoji = "&#9986;";
+      break;
+    case "Paper":
+      emoji = "&#128466;";
+      break;
+    case "Stone":
+      emoji = "&#129704;";
+      break;
+  }
+
+  return emoji;
 };
