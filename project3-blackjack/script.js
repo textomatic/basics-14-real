@@ -185,8 +185,9 @@ var main = function (input) {
     if (playerWins) {
       addConfetti();
       output += `<p><img class="confetti-gif" src="https://c.tenor.com/vY276tPmR2MAAAAC/usagyuuun-confetti.gif" /></p>`;
+    } else {
+      output += `<p><img class="confetti-gif" src="https://c.tenor.com/PX1EYGJ5ua4AAAAC/usagyuuun-usagyuuun_sticker.gif" /></p>`;
     }
-    output += `<p><img class="confetti-gif" src="https://c.tenor.com/PX1EYGJ5ua4AAAAC/usagyuuun-usagyuuun_sticker.gif" /></p>`;
   }
 
   return output;
